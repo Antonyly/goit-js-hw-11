@@ -1,7 +1,7 @@
 import fetchImages from './fetch-image';
 // import cardTemplate from '../templates/template.hbs';
 // import SimpleLightbox from 'simplelightbox';
-// import 'simplelightbox/dist/simple-lightbox.min.css';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { onCountryСard } from './fetch-image.js';
 import throttle from 'lodash.throttle';
