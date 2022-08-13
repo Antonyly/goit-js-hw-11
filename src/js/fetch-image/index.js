@@ -3,30 +3,61 @@ import fetchImages from './fetch-image';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import { onCountryСard } from './fetch-image.js';
+import { fetchImage } from './fetch-image.js';
 import throttle from 'lodash.throttle';
 
 
-const { searchForm, gallery, loadMoreBtn, endCollectionText } = {
+const { searchForm, gallery, loadMoreBtn, endCollectionText, input, button } = {
   searchForm: document.querySelector('.search-form'),
   gallery: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more'),
   endCollectionText: document.querySelector('.end-collection-text'),
+  input: document.querySelector('.search-form__input'),
+  button: document.querySelector('.search-form__button')
 };
 
 let totalHits = 0;
 let page = 1;
 let searchQuery = null;
+// button.disabled = 'false'
+      // input.addEventListener('input', () => {
+        // const inputEl = input.value + '' - 'a';
+        // console.log(inputEl)
+    //     if (input.value === '') {
+    // Notify.info('Enter your query to search images.');
+    // button.disabled = 'true'
+    //     } 
+  //        if (input.value !== '') {
+  //   Notify.info('Enter your query to search images.');
+  //  button.disabled = 'false' 
+  // }
+  // else {
+// button.disabled = 'false'
+//   }
+  
+  // console.log(input.value)
 
+      // })
+
+
+// button.disabled = 'true'
 const onSearchForm =  async e => {
   e.preventDefault();
   searchQuery = e.currentTarget.searchQuery.value;
   page = 1;
+  // if (input.value !== '') {
+  //   button.disabled = 'true'
+  // }
+  
+
+if (searchQuery === '') {
+  Notify.info('Enter your query to search images.');
+  return;
+  }
 
   if (searchQuery === null) {
     return;
   }
-
   const response = await fetchImages(searchQuery, page);
   totalHits = response.hits.length;
 
@@ -65,7 +96,7 @@ const onSearchForm =  async e => {
 
   } else {
     loadMoreBtn.style.display = "none"
-  }
+    }
 }
 loadMoreBtn.style.display = "none"
 
@@ -87,17 +118,12 @@ const onLoadMoreBtn = async () => {
 }
 
 const createCardImage = array => {
-  const cardExample = array.map(( largeImageURL, webformatURL, tags, likes, viewes, comments, downloads ) => onCountryСard( largeImageURL, webformatURL, tags, likes, viewes, comments, downloads )).join('');
+  const cardExample = array.map(( largeImageURL, webformatURL, tags, likes, viewes, comments, downloads ) => fetchImage( largeImageURL, webformatURL, tags, likes, viewes, comments, downloads )).join('');
   gallery.insertAdjacentHTML('beforeend', cardExample);
 }
 
 let lightbox = new SimpleLightbox('.photo-card a');
 
-// document.addEventListener('scroll', () => {
-//   if (window.scrollY === 2700) {
-//     loadMoreBtn.style.position = 'fixed';
-//   }
-// })
-
 loadMoreBtn.addEventListener('click', onLoadMoreBtn);
 searchForm.addEventListener('submit', onSearchForm);
+
