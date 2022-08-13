@@ -33,6 +33,9 @@ p {
     margin: 0;
     padding: 0;
 }
+.is-hidden{
+    display: none;
+}
 .search-form{
     display: flex;
     align-items: center;
@@ -81,12 +84,12 @@ img{
 }
 .photo-card{
     display: inline-block;
-    margin-left: 50px;
+    margin-left: 30px;
 }
 .cards{
     display: flex;
     flex-direction: column;
-    margin-left: 45px;
+    margin-left: 30px;
     margin-top: 50px;
     // flex-direction: column;
     // flex-wrap: wrap;
