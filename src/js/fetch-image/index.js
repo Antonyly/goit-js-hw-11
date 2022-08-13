@@ -50,7 +50,7 @@ const onSearchForm =  async e => {
   // }
   
 
-if (searchQuery === '') {
+if (searchQuery.trim() === '') {
   Notify.info('Enter your query to search images.');
   return;
   }
