@@ -9,7 +9,7 @@ export default async function fetchImages(value, page) {
 
   return await axios.get(`${BASE_URL}${filteredUrl}`).then(response => response.data);
 }
-export function onCountryСard({ largeImageURL, webformatURL, tags, likes, views, comments, downloads })  {
+export function fetchImage({ largeImageURL, webformatURL, tags, likes, views, comments, downloads })  {
     return `
         <div class='photo-card'>
         <div class="cards">
