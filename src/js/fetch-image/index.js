@@ -4,8 +4,17 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchImage } from './fetch-image.js';
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
 import throttle from 'lodash.throttle';
-
+  // Loading.custom({
+  //   // backgroundColor: 'rgba(0,0,0,0.8)',
+  //   customSvgCode: `<div class="preloader">
+  //         <div class="preloader__row">
+  //           <div class="preloader__item"></div>
+  //           <div class="preloader__item"></div>
+  //         </div>
+  //       </div>`,
+  // });
 
 const { searchForm, gallery, loadMoreBtn, endCollectionText, input, button } = {
   searchForm: document.querySelector('.search-form'),
@@ -19,35 +28,11 @@ const { searchForm, gallery, loadMoreBtn, endCollectionText, input, button } = {
 let totalHits = 0;
 let page = 1;
 let searchQuery = null;
-// button.disabled = 'false'
-      // input.addEventListener('input', () => {
-        // const inputEl = input.value + '' - 'a';
-        // console.log(inputEl)
-    //     if (input.value === '') {
-    // Notify.info('Enter your query to search images.');
-    // button.disabled = 'true'
-    //     } 
-  //        if (input.value !== '') {
-  //   Notify.info('Enter your query to search images.');
-  //  button.disabled = 'false' 
-  // }
-  // else {
-// button.disabled = 'false'
-//   }
-  
-  // console.log(input.value)
 
-      // })
-
-
-// button.disabled = 'true'
-const onSearchForm =  async e => {
+const onSearchForm = async e => {
   e.preventDefault();
   searchQuery = e.currentTarget.searchQuery.value;
   page = 1;
-  // if (input.value !== '') {
-  //   button.disabled = 'true'
-  // }
   
 
 if (searchQuery.trim() === '') {
@@ -81,6 +66,7 @@ if (searchQuery.trim() === '') {
     }
 
     if (response.totalHits === 0) {
+      
       gallery.innerHTML = '';
       Notify.failure('Sorry, there are no images matching your search query. Please try again.');
       loadMoreBtn.classList.add('is-hidden');
@@ -118,12 +104,30 @@ const onLoadMoreBtn = async () => {
 }
 
 const createCardImage = array => {
-  const cardExample = array.map(( largeImageURL, webformatURL, tags, likes, viewes, comments, downloads ) => fetchImage( largeImageURL, webformatURL, tags, likes, viewes, comments, downloads )).join('');
+
+  Loading.custom({
+  customSvgCode: `<div class="preloader">
+          <div class="preloader__row">
+            <div class="preloader__item"></div>
+            <div class="preloader__item"></div>
+          </div>
+        </div>`,
+});
+//   Loading.dots('loading', {
+//   backgroundColor: 'rgba(0,0,0,0.8)',
+// });
+  const cardExample = array.map((largeImageURL, webformatURL, tags, likes, viewes, comments, downloads) => fetchImage(largeImageURL, webformatURL, tags, likes, viewes, comments, downloads)).join('');
+
+  // window.onload = function () {
+  //     document.body.classList.add('loaded');
+  // }
+  
   gallery.insertAdjacentHTML('beforeend', cardExample);
+  Loading.remove();
+
 }
 
 let lightbox = new SimpleLightbox('.photo-card a');
 
 loadMoreBtn.addEventListener('click', onLoadMoreBtn);
 searchForm.addEventListener('submit', onSearchForm);
-

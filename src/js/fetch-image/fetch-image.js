@@ -7,6 +7,7 @@ export default async function fetchImages(value, page) {
 
   const filteredUrl = `?key=${API_KEY}&q=${value}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`;
 
+  
   return await axios.get(`${BASE_URL}${filteredUrl}`).then(response => response.data);
 }
 export function fetchImage({ largeImageURL, webformatURL, tags, likes, views, comments, downloads })  {
